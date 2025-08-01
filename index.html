@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Product Listing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <h1 class="logo">Shop</h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li>
+                        <select id="category-filter" class="category-dropdown">
+                            <option value="all">All Categories</option>
+                            <option value="smartphones">Smartphones</option>
+                            <option value="laptops">Laptops</option>
+                            <option value="fragrances">Fragrances</option>
+                            <option value="skincare">Skincare</option>
+                            <option value="groceries">Groceries</option>
+                            <option value="home-decoration">Home Decoration</option>
+                        </select>
+                    </li>
+                    <li><a href="#">Login / Register</a></li>
+                    <li><a href="#" class="cart-icon">🛒 <span class="cart-count">0</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Our Products</h2>
+        <section id="product-list" class="product-grid">
+            <div class="product-card">
+                <img src="https://i.dummyjson.com/data/products/1/thumbnail.jpg" alt="iPhone 9" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">iPhone 9</h3>
+                    <p class="product-description">An apple mobile which is nothing like apple</p>
+                    <div class="product-price">$549.00</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                        <button class="add-to-wishlist-btn">❤️</button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <aside id="shopping-cart" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart-btn">&times;</button>
+        </div>
+        <div class="cart-items-container">
+        </div>
+        <div class="cart-summary">
+            <p>Total: <span class="cart-total">$0.00</span></p>
+            <button class="checkout-btn">Checkout</button>
+        </div>
+    </aside>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <h1 class="logo">Shop</h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <select id="category-filter" class="category-dropdown">
+                            <option value="all">All Categories</option>
+                            <option value="smartphones">Smartphones</option>
+                            <option value="laptops">Laptops</option>
+                            <option value="fragrances">Fragrances</option>
+                            <option value="skincare">Skincare</option>
+                            <option value="groceries">Groceries</option>
+                            <option value="home-decoration">Home Decoration</option>
+                        </select>
+                    </li>
+                    <li><a href="#">Login / Register</a></li>
+                    <li><a href="#" class="cart-icon">🛒 <span class="cart-count">0</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="product-detail" class="product-detail-container">
+            <div class="product-image-gallery">
+                <img src="https://i.dummyjson.com/data/products/1/1.jpg" alt="Product Name" class="main-product-image">
+                <div class="thumbnail-gallery">
+                    <img src="https://i.dummyjson.com/data/products/1/1.jpg" alt="Thumbnail 1"
+                        class="thumbnail-image active">
+                    <img src="https://i.dummyjson.com/data/products/1/2.jpg" alt="Thumbnail 2" class="thumbnail-image">
+                    <img src="https://i.dummyjson.com/data/products/1/3.jpg" alt="Thumbnail 3" class="thumbnail-image">
+                </div>
+            </div>
+
+            <div class="product-info-details">
+                <h2 class="product-title">iPhone 9</h2>
+                <div class="product-rating">Rating: 4.69 / 5</div>
+                <div class="product-brand">Brand: Apple</div>
+                <p class="product-full-description">An apple mobile which is nothing like apple</p>
+                <div class="product-price-large">$549.00</div>
+                <div class="product-stock">In Stock: 94</div>
+                <div class="product-actions-details">
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                    <button class="add-to-wishlist-btn">❤️ Add to Wishlist</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <aside id="shopping-cart" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart-btn">&times;</button>
+        </div>
+        <div class="cart-items-container">
+        </div>
+        <div class="cart-summary">
+            <p>Total: <span class="cart-total">$0.00</span></p>
+            <button class="checkout-btn">Checkout</button>
+        </div>
+    </aside>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
