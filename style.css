@@ -199,7 +199,11 @@ h2 {
 
 .add-to-cart-btn:hover {
   background: #2980b9;
-  transform: scale(1.05);
+  transform: scale(1.01);
+}
+.add-to-cart-btn:active {
+  background: #2980b9;
+  transform: scale(1);
 }
 
 .add-to-wishlist-btn {
@@ -219,6 +223,11 @@ h2 {
   border-color: var(--primary-color);
   color: var(--primary-color);
   transform: scale(1.1);
+}
+.add-to-wishlist-btn:active {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  transform: scale(1);
 }
 
 /* Shopping Cart Sidebar */
@@ -429,10 +438,63 @@ h2 {
   background-color: transparent;
   border: 2px solid var(--primary-color);
   color: var(--primary-color);
-  font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+/* Cart Item Styling */
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+}
+
+.cart-item-details {
+  flex-grow: 1;
+}
+
+.cart-item-title {
+  font-weight: bold;
+}
+
+.cart-item-price {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+}
+
+.remove-item-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #e74c3c;
+  cursor: pointer;
+}
+
+.cart-item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.quantity-btn {
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 25px;
+  height: 25px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 /* Responsive Design for the Details Page */
