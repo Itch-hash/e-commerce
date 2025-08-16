@@ -1,24 +1,141 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Select the necessary elements
+  const productListContainer = document.getElementById("product-list");
+  const maxProductsPerLoad = 3;
+  let nextProductIndex = 0;
+  let allProducts = [];
+
+  async function init() {
+    try {
+      const response = await fetch("./db.json");
+      const data = await response.json();
+      allProducts = data.products;
+
+      if (!allProducts || allProducts.length === 0) {
+        productListContainer.innerHTML = "<p>No products found.</p>";
+        return;
+      }
+
+      loadMoreProducts();
+
+      setupIntersectionObserver();
+    } catch (error) {
+      console.error("Error fetching or processing product data:", error);
+    }
+  }
+
+  // ===  CORE LAZY LOADING LOGIC ===
+
+  function loadMoreProducts() {
+    const endIndex = nextProductIndex + maxProductsPerLoad;
+
+    const productsToDisplay = allProducts.slice(nextProductIndex, endIndex);
+
+    displayProducts(productsToDisplay);
+
+    nextProductIndex = endIndex;
+  }
+
+  function displayProducts(productsToDisplay) {
+    productsToDisplay.forEach((product) => {
+      const productCardDiv = document.createElement("div");
+      productCardDiv.classList.add("product-card");
+
+      const productImg = document.createElement("img");
+      productImg.classList.add("product-image");
+      productImg.src = product.thumbnail;
+      productImg.alt = product.title;
+      productCardDiv.appendChild(productImg);
+
+      const productInfoDiv = document.createElement("div");
+      productInfoDiv.classList.add("product-info");
+
+      const productTitle = document.createElement("h3");
+      productTitle.classList.add("product-title");
+      productTitle.innerHTML = product.title;
+      productInfoDiv.appendChild(productTitle);
+
+      const productDescription = document.createElement("p");
+      productDescription.classList.add("product-description");
+      productDescription.innerHTML = product.description;
+      productInfoDiv.appendChild(productDescription);
+
+      const productPrice = document.createElement("div");
+      productPrice.classList.add("product-price");
+      productPrice.innerHTML = `$${product.price.toFixed(2)}`;
+      productInfoDiv.appendChild(productPrice);
+
+      const productActions = document.createElement("div");
+      productActions.classList.add("product-actions");
+
+      const addToCartBtn = document.createElement("button");
+      addToCartBtn.classList.add("add-to-cart-btn");
+      addToCartBtn.innerHTML = "Add to Cart";
+      addToCartBtn.setAttribute("data-product-id", product.id);
+      productActions.appendChild(addToCartBtn);
+
+      const addToWishListBtn = document.createElement("button");
+      addToWishListBtn.classList.add("add-to-wishlist-btn");
+      addToWishListBtn.innerHTML = "❤️";
+      productActions.appendChild(addToWishListBtn);
+
+      productInfoDiv.appendChild(productActions);
+      productCardDiv.appendChild(productInfoDiv);
+
+      productListContainer.appendChild(productCardDiv);
+    });
+  }
+
+  // === INTERSECTION OBSERVER LOGIC (lazy loading) ===
+
+  function setupIntersectionObserver() {
+    const lastProductCard = productListContainer.lastElementChild;
+
+    if (lastProductCard) {
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              observer.unobserve(entry.target);
+
+              // Only load more if there are still products left to load
+              if (nextProductIndex < allProducts.length) {
+                loadMoreProducts();
+              }
+
+              // Set up the observer for the new last element, if one exists
+              if (nextProductIndex < allProducts.length) {
+                setTimeout(() => {
+                  setupIntersectionObserver();
+                }, 200);
+              }
+            }
+          });
+        },
+        {
+          rootMargin: "0px 0px 200px 0px",
+        }
+      );
+
+      observer.observe(lastProductCard);
+    }
+  }
+
+  init();
+
+  // === SHOPPING CART SIDEBAR LOGIC ===
   const cartIcon = document.querySelector(".cart-icon");
   const cartSidebar = document.getElementById("shopping-cart");
   const closeCartBtn = document.querySelector(".close-cart-btn");
 
-  // 2. Add event listeners
   cartIcon.addEventListener("click", (e) => {
-    // Prevent the default link behavior
     e.preventDefault();
-
-    // Show the cart sidebar
     toggleCart(true);
   });
 
   closeCartBtn.addEventListener("click", () => {
-    // Hide the cart sidebar
     toggleCart(false);
   });
 
-  // 3. Define the function to toggle the cart's visibility
   function toggleCart(show) {
     if (show) {
       cartSidebar.classList.add("active");
@@ -26,52 +143,4 @@ document.addEventListener("DOMContentLoaded", () => {
       cartSidebar.classList.remove("active");
     }
   }
-
-  //Handling Products
-
-  fetch("./db.json")
-    .then((reponse) => {
-      return reponse.json();
-    })
-    .then((data) => {
-      const products = data.products;
-      const productList = document.getElementById("product-list");
-      products.forEach((product) => {
-        const productCardDiv = document.createElement("div");
-        const productImg = document.createElement("img");
-        const productInfoDiv = document.createElement("div");
-        const productTitle = document.createElement("h3");
-        const productDescription = document.createElement("p");
-        const productPrice = document.createElement("div");
-        const productActions = document.createElement("div");
-        const addToCartBtn = document.createElement("button");
-        const addToWishListBtn = document.createElement("button");
-
-        productCardDiv.classList.add("product-card");
-        productList.appendChild(productCardDiv);
-        productImg.classList.add("product-image");
-        productImg.src = product.thumbnail;
-        productImg.alt = product.title;
-        productCardDiv.appendChild(productImg);
-        productCardDiv.appendChild(productInfoDiv);
-        productInfoDiv.classList.add("product-info");
-        productInfoDiv.appendChild(productTitle);
-        productTitle.innerHTML = product.title;
-        productTitle.classList.add("product-title");
-        productInfoDiv.appendChild(productDescription);
-        productDescription.innerHTML = product.description;
-        productDescription.classList.add("product-description");
-        productInfoDiv.appendChild(productPrice);
-        productPrice.innerHTML = `$${product.price.toFixed(2)}`;
-        productPrice.classList.add("product-price");
-        productInfoDiv.appendChild(productActions);
-        productActions.classList.add("product-actions");
-        productActions.appendChild(addToCartBtn);
-        addToCartBtn.classList.add("add-to-cart-btn");
-        addToCartBtn.innerHTML = "Add to Cart";
-        productActions.appendChild(addToWishListBtn);
-        addToWishListBtn.classList.add("add-to-wishlist-btn");
-        addToWishListBtn.innerHTML = "❤️";
-      });
-    });
 });

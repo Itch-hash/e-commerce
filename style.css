@@ -131,8 +131,9 @@ h2 {
   overflow: hidden;
   box-shadow: var(--shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex; /* This is the key change */
+  display: flex;
   flex-direction: column;
+  animation: fadeIn 0.5s ease-in-out forwards;
 }
 
 .product-card:hover {
@@ -150,7 +151,7 @@ h2 {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* This is the key change */
+  flex-grow: 1;
 }
 
 .product-title {
@@ -163,7 +164,7 @@ h2 {
   font-size: 0.9rem;
   color: var(--light-text-color);
   margin-bottom: 1rem;
-  flex-grow: 1; /* This is the key change */
+  flex-grow: 1;
 }
 
 .product-price {
@@ -178,7 +179,7 @@ h2 {
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  margin-top: auto; /* This is the key change */
+  margin-top: auto;
 }
 
 .add-to-cart-btn,
@@ -495,6 +496,16 @@ h2 {
   height: 25px;
   font-weight: bold;
   cursor: pointer;
+}
+
+/* Lazy loading animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Responsive Design for the Details Page */
