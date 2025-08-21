@@ -28,7 +28,7 @@
                         </select>
                     </li>
                     <li><a href="#">Login / Register</a></li>
-                    <li><a href="#" class="cart-icon">🛒 <span class="cart-count">0</span></a></li>
+                    <li><a href="#" class="cart-icon">🛒 <span class="cart-count" id="cart-count">0</span></a></li>
                 </ul>
             </nav>
         </div>
@@ -58,12 +58,13 @@
             <h3>Your Cart</h3>
             <button class="close-cart-btn">&times;</button>
         </div>
-        <div class="cart-items-container">
-            <div class="cart-item">
+        <div class="cart-items-container" id="cart-items-container">
+            <!-- <div class="cart-item">
                 <img src="https://i.dummyjson.com/data/products/1/thumbnail.jpg" alt="iPhone 9" class="cart-item-image">
                 <div class="cart-item-details">
                     <p class="cart-item-title">iPhone 9</p>
                     <p class="cart-item-price">$549.00</p>
+                    <p class="cart-item-price-discounted">$549.00</p>
                     <div class="cart-item-quantity">
                         <button class="quantity-btn decrease-quantity-btn">-</button>
                         <span class="quantity">1</span>
@@ -79,6 +80,7 @@
                 <div class="cart-item-details">
                     <p class="cart-item-title">MacBook Pro</p>
                     <p class="cart-item-price">$1749.00</p>
+                    <p class="cart-item-price-discounted">$1749.00</p>
                     <div class="cart-item-quantity">
                         <button class="quantity-btn decrease-quantity-btn">-</button>
                         <span class="quantity">2</span>
@@ -86,10 +88,10 @@
                     </div>
                 </div>
                 <button class="remove-item-btn">X</button>
-            </div>
+            </div> -->
         </div>
         <div class="cart-summary">
-            <p>Total: <span class="cart-total">$0.00</span></p>
+            <p>Total: <span class="cart-total" id="cart-total">$0.00</span></p>
             <button class="checkout-btn">Checkout</button>
         </div>
     </aside>
