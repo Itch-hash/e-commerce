@@ -1,12 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
   const productListContainer = document.getElementById("product-list");
+  const categoryFilter = document.getElementById("category-filter");
+
   const maxProductsPerLoad = 3;
   let nextProductIndex = 0;
   let allProducts = [];
+
   async function init() {
     try {
       const response = await fetch("./db.json");
       const data = await response.json();
+
       allProducts = data.products;
 
       if (!allProducts || allProducts.length === 0) {
@@ -21,6 +25,36 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching or processing product data:", error);
     }
   }
+
+  categoryFilter.onchange = async function init() {
+    try {
+      const response = await fetch("./db.json");
+      const data = await response.json();
+      const toFilterData = data.products;
+      const filteredData = toFilterData.filter((element) => {
+        if (element.category === categoryFilter.value) {
+          return true;
+        } else if (categoryFilter.value === "all-categories") {
+          return true;
+        }
+      });
+      console.log(filteredData);
+
+      allProducts = filteredData;
+
+      if (!allProducts || allProducts.length === 0) {
+        productListContainer.innerHTML = "<p>No products found.</p>";
+        return;
+      }
+      productListContainer.innerHTML = "";
+      nextProductIndex = 0;
+      loadMoreProducts();
+
+      setupIntersectionObserver();
+    } catch (error) {
+      console.error("Error fetching or processing product data:", error);
+    }
+  };
 
   // ===  CORE LAZY LOADING LOGIC ===
 
@@ -51,6 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const productTitle = document.createElement("h3");
       productTitle.classList.add("product-title");
       productTitle.innerHTML = product.title;
+      productTitle.id = product.category;
       productInfoDiv.appendChild(productTitle);
 
       const productDescription = document.createElement("p");
@@ -71,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
       addToCartBtn.innerHTML = "Add to Cart";
       addToCartBtn.setAttribute("data-product-id", product.id);
       addToCartBtn.id = "add-To-Cart";
-      //Cart Logic
+      // === Cart Logic ===
       addToCartBtn.onclick = () => {
         const itemExists = document.getElementById(product.id) !== null;
         if (!itemExists) {
