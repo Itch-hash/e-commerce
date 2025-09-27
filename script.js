@@ -79,7 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
       productImg.alt = product.title;
       productCardDiv.appendChild(productImg);
 
-      const productInfoDiv = document.createElement("div");
+      const productInfoDiv = document.createElement("a");
+      productInfoDiv.href = `product-card.html?id=${product.id}`;
+      productInfoDiv.style.textDecoration = "none";
       productInfoDiv.classList.add("product-info");
 
       const productTitle = document.createElement("h3");
@@ -106,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
       addToCartBtn.innerHTML = "Add to Cart";
       addToCartBtn.setAttribute("data-product-id", product.id);
       addToCartBtn.id = "add-To-Cart";
+
       // === Cart Logic ===
       addToCartBtn.onclick = () => {
         const itemExists = document.getElementById(product.id) !== null;
@@ -230,8 +233,8 @@ document.addEventListener("DOMContentLoaded", () => {
       addToWishListBtn.innerHTML = "❤️";
       productActions.appendChild(addToWishListBtn);
 
-      productInfoDiv.appendChild(productActions);
       productCardDiv.appendChild(productInfoDiv);
+      productCardDiv.appendChild(productActions);
 
       productListContainer.appendChild(productCardDiv);
     });
