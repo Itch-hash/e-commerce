@@ -16,19 +16,8 @@
             <nav class="main-nav">
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li>
-                        <select id="category-filter" class="category-dropdown">
-                            <option value="all">All Categories</option>
-                            <option value="smartphones">Smartphones</option>
-                            <option value="laptops">Laptops</option>
-                            <option value="fragrances">Fragrances</option>
-                            <option value="skincare">Skincare</option>
-                            <option value="groceries">Groceries</option>
-                            <option value="home-decoration">Home Decoration</option>
-                        </select>
-                    </li>
                     <li><a href="#">Login / Register</a></li>
-                    <li><a href="#" class="cart-icon">🛒 <span class="cart-count">0</span></a></li>
+                    <li><a href="#" class="cart-icon">🛒 <span class="cart-count" id="cart-count">0</span></a></li>
                 </ul>
             </nav>
         </div>
@@ -66,16 +55,17 @@
             <h3>Your Cart</h3>
             <button class="close-cart-btn">&times;</button>
         </div>
-        <div class="cart-items-container">
+        <div class="cart-items-container" id="cart-items-container">
         </div>
         <div class="cart-summary">
-            <p>Total: <span class="cart-total">$0.00</span></p>
+            <p>Total: <span class="cart-total" id="cart-total">$0.00</span></p>
             <button class="checkout-btn">Checkout</button>
         </div>
     </aside>
-
     <script src="script.js"></script>
     <script src="product.js"></script>
+
+    <script src="/cart.js"></script>
 </body>
 
 </html>
