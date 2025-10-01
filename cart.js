@@ -1,57 +1,106 @@
 let cartArr = [];
-function calculateTotalUp(productPrice) {
-  const cartTotal = document.getElementById("cart-total");
-  const cartCount = document.getElementById("cart-count");
-  cartArr.push(productPrice);
-  const totalPrice = cartArr.reduce(
-    (acc, currentValue) => Number(acc) + Number(currentValue),
-    0
-  );
-  cartTotal.innerHTML = "$" + totalPrice.toFixed(2);
-  cartCount.innerHTML++;
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadCart();
+});
+
+function saveCart() {
+  localStorage.setItem("shoppingCart", JSON.stringify(cartArr));
 }
 
-function calculateTotalDown(productPrice) {
-  const cartTotal = document.getElementById("cart-total");
-  const cartCount = document.getElementById("cart-count");
-  let indexOfElement;
-  cartArr.find((element, i, array) => {
-    if ((element = productPrice)) {
-      indexOfElement = array.indexOf(element);
-    }
-  });
-  cartArr.splice(indexOfElement, 1);
-  const totalPrice = cartArr.reduce(
-    (acc, currentValue) => Number(acc) + Number(currentValue),
-    0
-  );
-  cartCount.innerHTML--;
-  cartTotal.innerHTML = "$" + totalPrice.toFixed(2);
+function loadCart() {
+  const savedCart = localStorage.getItem("shoppingCart");
+  if (savedCart) {
+    cartArr = JSON.parse(savedCart);
+    renderCart();
+  }
 }
 
-function removeItem(numOfItems, productPrice, cartItemDivId) {
-  const cartTotal = document.getElementById("cart-total");
-  const cartTotalNum = Number(cartTotal.innerHTML.split("$").join(""));
-  const cartCount = document.getElementById("cart-count");
-  const cartItemDiv = document.getElementById(`${cartItemDivId}`);
-  const totalToDeduct = productPrice * numOfItems;
-  const newCartTotal = cartTotalNum - totalToDeduct;
-  let indexOfElement;
-  cartArr.find((element, i, array) => {
-    if ((element = productPrice)) {
-      cartArr.sort((a, b) => {
-        if (a < b) return -1;
-        if (a > b) return 1;
-        return 0;
-      });
-      indexOfElement = array.indexOf(element);
-    }
-  });
-  cartArr.splice(indexOfElement, numOfItems);
+function addItemToCart(product) {
+  const existingProductIndex = cartArr.findIndex(
+    (item) => item.id === product.id
+  );
+  const totalDiscountedPrice =
+    product.price - (product.price * product.discountPercentage) / 100;
 
-  cartTotal.innerHTML = "$" + newCartTotal.toFixed(2);
-  cartCount.innerHTML -= numOfItems;
-  cartItemDiv.remove();
+  if (existingProductIndex > -1) {
+    cartArr[existingProductIndex].quantity++;
+  } else {
+    cartArr.push({
+      ...product,
+      price: totalDiscountedPrice,
+      quantity: 1,
+    });
+  }
+  saveCart();
+  renderCart();
+}
+
+function updateQuantity(productId, newQuantity) {
+  const productIndex = cartArr.findIndex((item) => item.id === productId);
+  if (productIndex > -1) {
+    if (newQuantity > 0) {
+      cartArr[productIndex].quantity = newQuantity;
+    } else {
+      cartArr.splice(productIndex, 1);
+    }
+    saveCart();
+    renderCart();
+  }
+}
+
+function removeItem(productId) {
+  const productIndex = cartArr.findIndex((item) => item.id === productId);
+  if (productIndex > -1) {
+    cartArr.splice(productIndex, 1);
+    saveCart();
+    renderCart();
+  }
+}
+
+function renderCart() {
+  const cartItemsContainer = document.getElementById("cart-items-container");
+  const cartTotal = document.getElementById("cart-total");
+  const cartCount = document.getElementById("cart-count");
+
+  cartItemsContainer.innerHTML = "";
+  let total = 0;
+  let count = 0;
+
+  cartArr.forEach((item) => {
+    const itemTotal = item.price * item.quantity;
+    total += itemTotal;
+    count += item.quantity;
+
+    cartItemsContainer.innerHTML += `
+      <div class="cart-item" id="${item.id}">
+        <img src="${item.thumbnail}" alt="${
+      item.title
+    }" class="cart-item-image">
+        <div class="cart-item-details">
+          <p class="cart-item-title">${item.title}</p>
+          <p class="cart-item-price-discounted">$${item.price.toFixed(2)}</p>
+          <div class="cart-item-quantity">
+            <button class="quantity-btn decrease-quantity-btn" onclick="updateQuantity(${
+              item.id
+            }, ${item.quantity - 1})">-</button>
+            <span class="quantity" id="quantity${item.id}">${
+      item.quantity
+    }</span>
+            <button class="quantity-btn increase-quantity-btn" onclick="updateQuantity(${
+              item.id
+            }, ${item.quantity + 1})">+</button>
+          </div>
+        </div>
+        <button class="remove-item-btn" onclick="removeItem(${
+          item.id
+        })">X</button>
+      </div>
+    `;
+  });
+
+  cartTotal.innerHTML = `$${total.toFixed(2)}`;
+  cartCount.innerHTML = count;
 }
 
 const cartIcon = document.querySelector(".cart-icon");
